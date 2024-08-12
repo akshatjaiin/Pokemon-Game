@@ -1,0 +1,46 @@
+[gd_scene load_steps=7 format=3 uid="uid://bokv60p4misiq"]
+
+[ext_resource type="Texture2D" uid="uid://ciqjw8trrw0ve" path="res://Assets/Player/Male_Spritesheet.png" id="1_uexge"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v61bl"]
+atlas = ExtResource("1_uexge")
+region = Rect2(16, 0, 16, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lptwv"]
+atlas = ExtResource("1_uexge")
+region = Rect2(0, 0, 16, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sx1hu"]
+atlas = ExtResource("1_uexge")
+region = Rect2(32, 0, 16, 28)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_236v7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v61bl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lptwv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sx1hu")
+}],
+"loop": true,
+"name": &"forward",
+"speed": 9.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iarip"]
+size = Vector2(10, 18)
+
+[node name="Player" type="Node2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_236v7")
+animation = &"forward"
+frame_progress = 0.0775003
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D"]
+position = Vector2(0, -4)
+shape = SubResource("RectangleShape2D_iarip")
