@@ -1,3 +1,16 @@
-[gd_scene format=3 uid="uid://d2cvstgoci1ui"]
+[gd_scene load_steps=3 format=3 uid="uid://d2cvstgoci1ui"]
 
-[node name="Town" type="Node2D"]
+[ext_resource type="PackedScene" uid="uid://bokv60p4misiq" path="res://Scenes/player.tscn" id="1_1vywx"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_rdyyq"]
+normal = Vector2(0.00420164, -0.999991)
+distance = 194.654
+
+[node name="town" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_1vywx")]
+position = Vector2(446, 77)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Player"]
+position = Vector2(7, 342)
+shape = SubResource("WorldBoundaryShape2D_rdyyq")
