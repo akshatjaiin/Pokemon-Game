@@ -1,45 +1,44 @@
 extends CharacterBody2D
-const SPEED = 150.0
+var walk_speed = 150.0
 const JUMP_VELOCITY = -400.0
-
-# Get the gravity from the project settings to be synced with RigidBody nodes.
-var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+const TILE_SIZE = 16
+var initial_position = Vector2(0, 0)
+var input_direction = Vector2(0, 0)
+var is_moving = false
+var percent_moved_to_next_tile = 0.0
 @onready var animated_sprite = $AnimatedSprite2D
 
+func _ready():
+	initial_position = position
+	
 func _physics_process(delta):
 	# Add the gravity.
-	if not is_on_floor(): 
-		velocity.y += gravity * delta
-
-	# Handle jump.
-	if Input.is_action_just_pressed("JUMP") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
-		
-
-	# Get the input direction .
-	# As good practice, you should replace UI actions with custom gameplay actions.
-	var direction = Input.get_axis("move_left", "move_right")
-	if direction > 0:
-		animated_sprite.flip_h = false
-		
-		
-	elif direction < 0:
-		animated_sprite.flip_h = true
-		velocity.x = direction * SPEED
-		
-	if direction:
-		velocity.x = direction * SPEED
+	if is_moving == false:
+		process_player_input()
+	elif input_direction != Vector2.ZERO:
+		move(delta)
 	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
+		is_moving = false
 		
-	if is_on_floor():
-		if direction == 0:
-			animated_sprite.play("idle")
-		else:
-			animated_sprite.play("run")
-	else:
-		animated_sprite.play("jump")
-		
-	
 
-	move_and_slide()
+func process_player_input():
+	if input_direction.y == 0:
+		input_direction.x = int(Input.is_action_just_pressed("ui_right")) - int(Input.is_action_just_pressed("ui_left"))	
+	if input_direction.x == 0:
+		input_direction.y = int(Input.is_action_just_pressed("ui_down")) - int(Input.is_action_just_pressed("ui_up"))
+		
+	if input_direction != Vector2.ZERO:
+		initial_position = position
+		is_moving = true
+		
+func move(delta):
+	percent_moved_to_next_tile += walk_speed * delta
+	if percent_moved_to_next_tile >= 1.0:
+		position = initial_position + (TILE_SIZE * input_direction)
+		percent_moved_to_next_tile = 0.0
+		is_moving = false
+	else:
+		position = initial_position + (TILE_SIZE * input_direction * percent_moved_to_next_tile)
+		
+		
+
