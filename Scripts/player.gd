@@ -1,6 +1,6 @@
 extends CharacterBody2D
+
 var walk_speed = 150.0
-const JUMP_VELOCITY = -400.0
 const TILE_SIZE = 16
 var initial_position = Vector2(0, 0)
 var input_direction = Vector2(0, 0)
@@ -10,41 +10,43 @@ var percent_moved_to_next_tile = 0.0
 
 func _ready():
 	initial_position = position
-	
+
 func _physics_process(delta):
-	# Add the gravity.
-	if is_moving == false:
+	if not is_moving:
 		process_player_input()
-	elif input_direction != Vector2.ZERO:
-		move(delta)
 	else:
-		is_moving = false
-		
+		move(delta)
 
 func process_player_input():
-	if input_direction.y == 0:
-		input_direction.x = int(Input.is_action_pressed("ui_right")) - int(Input.is_action_just_pressed("ui_left"))	
-	if input_direction.x == 0:
-		input_direction.y = int(Input.is_action_pressed("ui_down")) - int(Input.is_action_just_pressed("ui_up"))
+	input_direction = Vector2.ZERO
 	
-		
+	# Horizontal movement
+	if Input.is_action_pressed("ui_right"):
+		input_direction.x = 1
+	elif Input.is_action_pressed("ui_left"):
+		input_direction.x = -1
+	
+	# Vertical movement (only if no horizontal movement)
+	if input_direction == Vector2.ZERO:
+		if Input.is_action_pressed("ui_down"):
+			input_direction.y = 1
+		elif Input.is_action_pressed("ui_up"):
+			input_direction.y = -1
+	
 	if input_direction != Vector2.ZERO:
 		initial_position = position
 		is_moving = true
-		
-	if input_direction == 0:
-		animated_sprite.play("idle")
+		animated_sprite.play("run")
 	else:
-		animated_sprite.play("run")	
-		
+		animated_sprite.play("idle")
+
 func move(delta):
-	percent_moved_to_next_tile += walk_speed * delta
+	percent_moved_to_next_tile += walk_speed * delta / TILE_SIZE
 	if percent_moved_to_next_tile >= 1.0:
-		position = initial_position + (TILE_SIZE * input_direction)
+		position = initial_position + TILE_SIZE * input_direction
 		percent_moved_to_next_tile = 0.0
 		is_moving = false
+		input_direction = Vector2.ZERO
+		animated_sprite.play("idle")
 	else:
-		position = initial_position + (TILE_SIZE * input_direction * percent_moved_to_next_tile)
-		
-		
-
+		position = initial_position + TILE_SIZE * input_direction * percent_moved_to_next_tile
