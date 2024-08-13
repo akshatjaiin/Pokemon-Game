@@ -36,7 +36,7 @@ func process_player_input():
 	if input_direction != Vector2.ZERO:
 		initial_position = position
 		is_moving = true
-		animated_sprite.play("run")
+		
 	else:
 		animated_sprite.play("idle")
 

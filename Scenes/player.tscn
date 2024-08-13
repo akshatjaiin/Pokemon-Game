@@ -1,7 +1,17 @@
-[gd_scene load_steps=14 format=3 uid="uid://bokv60p4misiq"]
+[gd_scene load_steps=21 format=3 uid="uid://bokv60p4misiq"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_su01b"]
 [ext_resource type="Texture2D" uid="uid://ciqjw8trrw0ve" path="res://Assets/Player/Male_Spritesheet.png" id="1_uexge"]
+
+[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_eh1dy"]
+
+[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_wy31v"]
+blend_point_0/node = SubResource("AnimationNodeBlendSpace2D_eh1dy")
+blend_point_0/pos = Vector2(-1, 0)
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_sf6ct"]
+states/idle/node = SubResource("AnimationNodeBlendSpace2D_wy31v")
+states/idle/position = Vector2(324, 101.556)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iarip"]
 size = Vector2(24, 39)
@@ -29,6 +39,22 @@ region = Rect2(0, 0, 16, 28)
 [sub_resource type="AtlasTexture" id="AtlasTexture_sx1hu"]
 atlas = ExtResource("1_uexge")
 region = Rect2(32, 0, 16, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ai0mc"]
+atlas = ExtResource("1_uexge")
+region = Rect2(16, 64, 16, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_45lpb"]
+atlas = ExtResource("1_uexge")
+region = Rect2(16, 64, 16, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dmxar"]
+atlas = ExtResource("1_uexge")
+region = Rect2(0, 64, 16, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qns5k"]
+atlas = ExtResource("1_uexge")
+region = Rect2(32, 64, 16, 28)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_q2hms"]
 atlas = ExtResource("1_uexge")
@@ -74,6 +100,28 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_ai0mc")
+}],
+"loop": true,
+"name": &"idle right",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_45lpb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dmxar")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qns5k")
+}],
+"loop": true,
+"name": &"right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_q2hms")
 }, {
 "duration": 1.0,
@@ -83,12 +131,18 @@ animations = [{
 "texture": SubResource("AtlasTexture_uxj38")
 }],
 "loop": true,
-"name": &"left",
+"name": &"run_left",
 "speed": 8.0
 }]
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_su01b")
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+root_node = NodePath("../AnimationPlayer")
+tree_root = SubResource("AnimationNodeStateMachine_sf6ct")
+parameters/idle/blend_position = Vector2(-0.545244, -0.0143884)
+parameters/idle/0/blend_position = Vector2(0, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(5, 7.5)
@@ -97,11 +151,13 @@ shape = SubResource("RectangleShape2D_iarip")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 texture_repeat = 2
-position = Vector2(6, 5.29592)
-scale = Vector2(2.9375, 2.82653)
+position = Vector2(2.75, 2)
+scale = Vector2(2.90625, 2.82653)
 sprite_frames = SubResource("SpriteFrames_236v7")
-animation = &"backward"
+animation = &"idle right"
 autoplay = "backward"
+frame_progress = 0.895808
 offset = Vector2(0, 5)
+flip_h = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
