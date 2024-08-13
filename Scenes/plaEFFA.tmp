@@ -100,8 +100,6 @@ texture_repeat = 2
 position = Vector2(6, 5.29592)
 scale = Vector2(2.9375, 2.82653)
 sprite_frames = SubResource("SpriteFrames_236v7")
-animation = &"backward"
-autoplay = "backward"
+animation = &"forward"
+frame_progress = 0.387242
 offset = Vector2(0, 5)
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]

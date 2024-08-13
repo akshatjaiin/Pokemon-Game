@@ -23,13 +23,19 @@ func _physics_process(delta):
 
 func process_player_input():
 	if input_direction.y == 0:
-		input_direction.x = int(Input.is_action_just_pressed("ui_right")) - int(Input.is_action_just_pressed("ui_left"))	
+		input_direction.x = int(Input.is_action_pressed("ui_right")) - int(Input.is_action_just_pressed("ui_left"))	
 	if input_direction.x == 0:
-		input_direction.y = int(Input.is_action_just_pressed("ui_down")) - int(Input.is_action_just_pressed("ui_up"))
+		input_direction.y = int(Input.is_action_pressed("ui_down")) - int(Input.is_action_just_pressed("ui_up"))
+	
 		
 	if input_direction != Vector2.ZERO:
 		initial_position = position
 		is_moving = true
+		
+	if input_direction == 0:
+		animated_sprite.play("idle")
+	else:
+		animated_sprite.play("run")	
 		
 func move(delta):
 	percent_moved_to_next_tile += walk_speed * delta
