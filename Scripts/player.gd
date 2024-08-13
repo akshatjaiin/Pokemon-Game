@@ -1,12 +1,15 @@
 extends CharacterBody2D
+@onready var animation_player = $AnimationPlayer
+@onready var animated_sprite_2d = $AnimatedSprite2D
 
-var walk_speed = 150.0
-const TILE_SIZE = 16
-var initial_position = Vector2(0, 0)
-var input_direction = Vector2(0, 0)
-var is_moving = false
-var percent_moved_to_next_tile = 0.0
-@onready var animated_sprite = $AnimatedSprite2D
+var walk_speed := 10.0
+const TILE_SIZE := 16
+var initial_position := Vector2(0, 0)
+var input_direction := Vector2(0, 0)
+var is_moving := false
+var percent_moved_to_next_tile := 0.0
+@onready var animated_sprite := $AnimatedSprite2D
+
 
 func _ready():
 	initial_position = position
@@ -31,6 +34,7 @@ func process_player_input():
 		if Input.is_action_pressed("ui_down"):
 			input_direction.y = 1
 		elif Input.is_action_pressed("ui_up"):
+			animated_sprite.play("run_up")
 			input_direction.y = -1
 	
 	if input_direction != Vector2.ZERO:

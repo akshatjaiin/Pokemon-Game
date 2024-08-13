@@ -1,6 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://d2cvstgoci1ui"]
+[gd_scene load_steps=5 format=3 uid="uid://d2cvstgoci1ui"]
 
 [ext_resource type="PackedScene" uid="uid://bokv60p4misiq" path="res://Scenes/player.tscn" id="1_1vywx"]
+[ext_resource type="Texture2D" uid="uid://dslqud0m6pmb2" path="res://Assets/Tilesets/ledge.png" id="2_0x60j"]
+[ext_resource type="Texture2D" uid="uid://cinclcm6t50i0" path="res://Assets/Tilesets/grass1_tileset.png" id="3_u2lcf"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_rdyyq"]
 normal = Vector2(0.00420164, -0.999991)
@@ -9,8 +11,27 @@ distance = 194.654
 [node name="town" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource("1_1vywx")]
-position = Vector2(446, 77)
+z_index = 15
+position = Vector2(130, 88)
+scale = Vector2(-0.0508559, 0.0545693)
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Player"]
 position = Vector2(7, 342)
 shape = SubResource("WorldBoundaryShape2D_rdyyq")
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+scale = Vector2(0.0787059, -0.0206537)
+zoom = Vector2(11, 11)
+
+[node name="Ledge" type="Sprite2D" parent="."]
+position = Vector2(207, 253)
+texture = ExtResource("2_0x60j")
+
+[node name="Ledge2" type="Sprite2D" parent="."]
+position = Vector2(252, 253)
+texture = ExtResource("2_0x60j")
+
+[node name="Grass1Tileset" type="Sprite2D" parent="."]
+position = Vector2(120, 99)
+scale = Vector2(10.8212, 8.98765)
+texture = ExtResource("3_u2lcf")

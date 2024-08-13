@@ -194,7 +194,7 @@ scale = Vector2(2.90625, 2.82653)
 sprite_frames = SubResource("SpriteFrames_236v7")
 animation = &"idle_down"
 autoplay = "idle_down"
-frame_progress = 0.476609
+frame_progress = 0.589903
 offset = Vector2(0, 5)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
